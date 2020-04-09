@@ -12,7 +12,6 @@ public class AStar {
 
     //思想： 从起点开始---寻找到终点最近的距离  = 当前点到周围点的距离  + 周围位置的点到最后点距离
 
-
     //用来存能走的路
     public static ArrayList<P>  openArray = new ArrayList<>();
     //保存所有不能走的路径
@@ -25,12 +24,12 @@ public class AStar {
     public static int[][] map = new int[][]{
 
         {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
-        {3,0,0,1,0,0,0,0,0,0,0,0,0,0,3,3},
+        {3,0,0,1,0,0,0,0,0,0,0,0,3,0,3,3},
         {3,3,0,3,3,3,3,3,3,3,3,3,3,0,3,3},
         {3,3,3,0,0,0,0,0,0,0,0,3,3,0,3,3},
         {3,3,3,3,0,3,3,3,3,3,0,3,3,0,3,3},
-        {3,3,3,3,0,0,3,3,3,3,0,0,0,0,3,3},
-        {3,3,3,3,3,0,0,0,0,0,0,0,3,0,3,3},
+        {3,3,3,3,3,0,3,3,3,3,0,0,0,0,3,3},
+        {3,3,3,3,3,0,3,0,0,0,0,0,3,0,3,3},
         {3,3,3,3,3,3,3,3,3,3,3,3,0,0,3,3},
         {3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3},
         {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}
@@ -77,7 +76,6 @@ public class AStar {
         return c;
     }
 
-
     /**
      *  总距离
      * @param start
@@ -98,8 +96,18 @@ public class AStar {
         }
         //标记当前位置
         map[p.x][p.y] = 1;
+        openArray.add(p);
         //寻找相邻的位置，寻找下一个点
         P p2 = lookUp(p);
+        while (p2 == null){
+            P remove = openArray.remove(openArray.size() - 1);
+            p2 = lookUp(remove);
+            if(p2 != null){
+                map[p2.x][p2.y] = 1;
+            }else {
+                map[remove.x][remove.y] = 3;
+            }
+        }
         //递归下一个位置
         openFn(p2);
     }
@@ -140,14 +148,19 @@ public class AStar {
             temp[i] = f(p,result.get(i),endPoint);
         }
         //找出数组中的最小值
-        int index = 0;
+        int index =0;
         for(int i = 0; i < temp.length; i++){
             if(temp[index] > temp[i]){
                 index = i;
             }
         }
         //保存估算最近到终点的那个点
-        P minPoint = result.get(index);
+        P minPoint;
+        if(result.size() > 0){
+            minPoint = result.get(index);
+        }else {
+            minPoint = null;
+        }
         return minPoint;
     }
 

@@ -18,9 +18,9 @@ public class Dijkstra {
     int[] distance;
     int[][] edge;
 
-    public Dijkstra(Graph g, int sourceP){
+    public Dijkstra(Graph g, int source){
         graph = g;
-        sourceP = sourceP;
+        sourceP = source;
         vertices = new int[graph.verticesSize];
         distance = new int[graph.verticesSize];
         edge = graph.matrix;
