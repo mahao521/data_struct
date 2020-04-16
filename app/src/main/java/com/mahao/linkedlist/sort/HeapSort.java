@@ -8,7 +8,6 @@ import android.app.ApplicationErrorReport;
 
 public class HeapSort {
 
-
     /**
      *     创建一个堆  特点就是一个满二叉树
      *     从最后一个父节点创建---保证创建的一个二叉树，根节点一定最小。
@@ -31,24 +30,25 @@ public class HeapSort {
         if(kright < n){
             kRightValue = array[kright];
         }
-        //从最上向下递归
+       //从最上向下递归
         //三个节点开始比较大小
-        if(array[k] <= kLeftValue && array[k] <= kRightValue){
+        if(array[k] >= kLeftValue && array[k] >= kRightValue){
             return ;
         }
         if(kLeftValue < kRightValue){//左子树
 
             int temp = array[k];
+            array[k] = array[kright];
+            array[kright] = temp;
+            createHeap(array,n,kright);
+
+
+        }else{   //右子树
+            int temp = array[k];
             array[k] = array[kleft];
             array[kleft] = temp;
             createHeap(array,n,kleft);  //主要用于递归 ，可以调整之前根节点的最小值， 最后，节点的位置一定这个节点二叉树里面最小的。
 
-        }else{   //右子树
-
-            int temp = array[k];
-            array[k] = array[kright];
-            array[kright] = temp;
-            createHeap(array,n,kright);
         }
     }
 
@@ -70,9 +70,11 @@ public class HeapSort {
             System.out.print(array[0]+" ");
             //最后一个节点放在根上
             array[0] = array[n-1];
-            n--;
+
             //重新调整
             createHeap(array,n,0);  //每次调整，保证所有的根节点都是最小的。。
+
+            n--;
         }
     }
 

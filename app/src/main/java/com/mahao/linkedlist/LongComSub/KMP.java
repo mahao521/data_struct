@@ -34,7 +34,7 @@ public class KMP {
             //2 把j赋值给数组
             next[i] = j;
         }
-        return next;
+       return next;
     }
 
     public static int kmp(String str,String dest,int[] next){
